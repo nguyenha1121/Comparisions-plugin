@@ -153,7 +153,7 @@ class Woo_Compare_Public {
 			'post_type'	=> 'page',
 			'post_content'	=> '[woo_compare_compare_content]',
 			'post_status'	=> 'publish',
-			'post_title'	=> 'Hello'
+			'post_title'	=> 'Products Comparison Table'
 		);
 		$id = wp_insert_post($page);
 		add_option('woo_compare_page_id',$id);
@@ -337,15 +337,20 @@ class Woo_Compare_Public {
 								foreach ($list_ac as $k => $v) {
 									// echo $values[name];
 									echo "<li>";
+									$ck = false;
 									foreach ($arttris as $keys => $values) {
 										if($values[name]==$v){
 											$vl = wc_get_product_terms( $value, $v , array( 'fields' => 'names' ) );
 											// var_dump($vl);
 												foreach ($vl as $ke => $va) {
+													
 													echo $va."&nbsp;";
+													$ck = true;
 												}	
-											}	
+											}
+											
 										}
+									if(!$ck) echo "None";
 									echo '</li>';
 								}
 								?>
