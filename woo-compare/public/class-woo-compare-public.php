@@ -59,7 +59,7 @@ class Woo_Compare_Public {
 		add_action('woocommerce_archive_description',array(&$this,'woo_compare_submit'));
 		add_action('init',array(&$this,'woo_compare_auto_add_page'));
 		add_shortcode('woo_compare_compare_content',array(&$this,'woo_compare_compare_page_sc'));
-		add_action('woocommerce_single_product_summary',array(&$this,'isa_woocommerce_all_pa'));
+		// add_action('woocommerce_single_product_summary',array(&$this,'isa_woocommerce_all_pa'));
 
 		
 	}
@@ -131,11 +131,10 @@ class Woo_Compare_Public {
 	public function woo_compare_ajax(){
 
 		$result = $_POST['data'];
-
 		$name = "ids";
-		setcookie( $name, json_encode($result), time() + (86400), "/" );
-
-		
+		// $old = array();
+		// $old = $_COOKIE[$name];	
+		setcookie( $name, json_encode($result), time() + (86400), "/" );	
 		if($result == null){
 			echo 'null';
 		}
@@ -182,55 +181,7 @@ class Woo_Compare_Public {
 
 	/////////ex function
 
-	function isa_woocommerce_all_pa(){
-   
-	    global $product;
-	    $attributes = $product->get_attributes();
-	   
-	    if ( ! $attributes ) {
-	        return;
-	    }
-	   
-	    $out = '';
-	   
-	    foreach ( $attributes as $attribute ) {
-	 
-	            // skip variations
-	            if ( $attribute['is_variation'] ) {
-	                continue;
-	            }
-	            
-	        if ( $attribute['is_taxonomy'] ) {
-	 
-	            $terms = wp_get_post_terms( $product->id, $attribute['name'], 'all' );
-	             
-	            // get the taxonomy
-	            $tax = $terms[0]->taxonomy;
-	             
-	            // get the tax object
-	            $tax_object = get_taxonomy($tax);
-	             
-	            // get tax label
-	            if ( isset ($tax_object->labels->name) ) {
-	                $tax_label = $tax_object->labels->name;
-	            } elseif ( isset( $tax_object->label ) ) {
-	                $tax_label = $tax_object->label;
-	            }
-	             
-	            foreach ( $terms as $term ) {
-	  
-	                $out .= $tax_label . ': ';
-	                $out .= $term->name . '<br />';
-	                  
-	            }
-	               
-	        } else {
-	            $out .= $attribute['name'] . ': ';
-	            $out .= $attribute['value'] . '<br />';
-	        }
-	    }
-	    echo $out;
-	}
+
 	////////////
 
 
@@ -256,15 +207,14 @@ class Woo_Compare_Public {
 
 	public function woo_compare_compare_page_sc($args,$content){
 		$_pr = new WC_Product_Factory();
-		$ids = $_COOKIE['ids'];
-		if(!isset($_COOKIE['ids'])) {
+		$ids = $_COOKIE['wooc-cks'];
+		if(!isset($_COOKIE['wooc-cks'])) {
 			// when not select another product
 			echo "Not item selcected!";
 			return ;
 		}
-		$ids = stripslashes($ids);
-		$ids = str_replace(array('','[',']',"'",'"'), "", $ids);
 		$s = explode(",", $ids);
+		// var_dump($_COOKIE);
 		// list item selected
 		?>
 		<!-- <section class="cd-intro">
@@ -293,17 +243,22 @@ class Woo_Compare_Public {
 							// var_dump($actv);
 							$list_actv = array();
 							$list_ac = array();
-							foreach ($list as $k => $v) {
-								foreach ($actv as $key => $value) {
-									if($key == $v->attribute_name){
-										array_push($list_actv,$v->attribute_label);
-										array_push($list_ac,'pa_'.$v->attribute_name);
+							if(!isset($actv)){
+								foreach ($list as $k => $v) {
+									foreach ($actv as $key => $value) {
+										if($key == $v->attribute_name){
+											array_push($list_actv,$v->attribute_label);
+											array_push($list_ac,'pa_'.$v->attribute_name);
+										}
 									}
 								}
+								foreach ($list_actv as $key => $value) {
+									echo '<li>'.$value.'</li>';
+								}
 							}
-							foreach ($list_actv as $key => $value) {
-								echo '<li>'.$value.'</li>';
-							}
+							
+							
+							
 							// var_dump($list_ac);
 						?>
 					</ul>
