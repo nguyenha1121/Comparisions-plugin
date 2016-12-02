@@ -56,7 +56,9 @@ class Woo_Compare_Public {
 		add_action('wp_ajax_nopriv_woo_compare_ajax', array(&$this,'woo_compare_ajax'));
 
 		add_action('woocommerce_after_shop_loop_item',array(&$this,'woo_compare_add_checkbox'));
+		add_action('woocommerce_before_add_to_cart_form',array(&$this,'woo_compare_add_checkbox'));
 		add_action('woocommerce_archive_description',array(&$this,'woo_compare_submit'));
+		add_action('woocommerce_product_meta_start',array(&$this,'woo_compare_submit'));
 		add_action('init',array(&$this,'woo_compare_auto_add_page'));
 		add_shortcode('woo_compare_compare_content',array(&$this,'woo_compare_compare_page_sc'));
 		// add_action('woocommerce_single_product_summary',array(&$this,'isa_woocommerce_all_pa'));
@@ -216,6 +218,9 @@ class Woo_Compare_Public {
 		$s = explode(",", $ids);
 		// var_dump($_COOKIE);
 		// list item selected
+		$list = wc_get_attribute_taxonomies();
+		$actv = get_option('wooc_option');
+		// var_dump($actv);
 		?>
 		<!-- <section class="cd-intro">
 			<h1><?php _e('Products Comparison Table','woo-compare'); ?></h1>
@@ -237,13 +242,13 @@ class Woo_Compare_Public {
 						<li>Price</li>
 						<li>Customer Rating</li>
 						<?php 
-							$list = wc_get_attribute_taxonomies();
-							$actv = get_option('wooc_option');
+							
 							// var_dump($list);
-							// var_dump($actv);
+							
 							$list_actv = array();
 							$list_ac = array();
-							if(!isset($actv)){
+
+							if(($actv!='')){
 								foreach ($list as $k => $v) {
 									foreach ($actv as $key => $value) {
 										if($key == $v->attribute_name){
@@ -279,12 +284,28 @@ class Woo_Compare_Public {
 									$img_url[0]="http://honganhtesol.com/Home/wp-content/uploads/2016/09/default.jpg";
 								}
 								?>
-				    			<img width="150px" height="100px" class="wooc-header-product-thumbnail" src="<?php  echo $img_url[0]; ?>" data-id="<?php echo $value; ?>">
-								<h3><a class="wooc-header-product" href="<?php echo (get_permalink($value)); ?>"><?php echo $post->post->post_title; ?></a></h3>
+								<div class="wooc-img">
+									<img width="150px" height="100px" class="wooc-header-product-thumbnail" src="<?php  echo $img_url[0]; ?>" data-id="<?php echo $value; ?>">
+								</div>
+								<h4><a class="wooc-header-product" href="<?php echo (get_permalink($value)); ?>"><?php echo $post->post->post_title; ?></a></h4>
 							</div> <!-- .top-info -->
 							<ul class="cd-features-list">
 								<li><?php echo ($this->wc_get_product_price($value)); ?></li>
-								<li class="rate"><span><?php echo $post->get_average_rating(); ?>/5</span></li>
+								<li>
+								<?php 	$rating_count = $post->get_rating_count();
+										$review_count = $post->get_review_count();
+										$average      = $post->get_average_rating(); ?>
+									<div class="woocommerce-product-rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+									<div class="star-rating" style="margin:0 auto;" title="<?php printf( __( 'Rated %s out of 5', 'woocommerce' ), $average ); ?>">
+										<span style="width:<?php echo ( ( $average / 5 ) * 100 ); ?>%">
+											<strong itemprop="ratingValue" class="rating"><?php echo esc_html( $average ); ?></strong> <?php printf( __( 'out of %s5%s', 'woocommerce' ), '<span itemprop="bestRating">', '</span>' ); ?>
+											<?php printf( _n( 'based on %s customer rating', 'based on %s customer ratings', $rating_count, 'woocommerce' ), '<span itemprop="ratingCount" class="rating">' . $rating_count . '</span>' ); ?>
+										</span>
+									</div>
+									<?php if ( comments_open() ) : ?><a href="#reviews" class="woocommerce-review-link" rel="nofollow">(<?php printf( _n( '%s customer review', '%s customer reviews', $review_count, 'woocommerce' ), '<span itemprop="reviewCount" class="count">' . $review_count . '</span>' ); ?>)</a><?php endif ?>
+									</div>
+								</li>
+								<!--   -->
 								<?php
 								$arttris = $post->get_attributes();
 								// foreach attributes

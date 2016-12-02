@@ -49,10 +49,26 @@
 			// })
 		});
 		var ar = [];
+		var temp = [];
+		var cs = getCookie('wooc-cks');
+		cs = cs.split(",");
+		cs = cs.sort();
+		for(var i = 0 ;i<cs.length;i++){
+			if(cs[i]!=""){
+				ar.push(cs[i]);
+			}
+		}
+		console.log(ar);
 		$('.woo_compare_checkbox').change(function(){
 			
 			if($(this).is(":checked")){
 				ar.push($(this).val());
+				for(var i = 1 ;i<ar.length;i++){
+					if(ar[i-1]==ar[i]){
+						ar.splice(i-1,1);
+					}
+				}
+				console.log(ar);
 				setCookie('wooc-cks',ar,1);
 			}
 			else {

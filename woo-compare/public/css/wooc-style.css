@@ -159,7 +159,7 @@ Main Components
 }
 
 .cd-products-wrapper {
-  overflow-x: auto;
+  overflow-x: hidden;
   /* this fixes the buggy scrolling on webkit browsers - mobile devices only - when overflow property is applied */
   -webkit-overflow-scrolling: touch;
   border-style: solid;
@@ -252,7 +252,7 @@ Main Components
   font-size: 1.2rem;
   font-weight: bold;
   /* set line-height value equal to font-size of text inside product cells */
-  line-height: 14px;
+  // line-height: 14px;
   padding: 25px 10px;
   text-align: left;
 }
@@ -260,7 +260,8 @@ Main Components
   .features .cd-features-list li,
   .cd-products-table .features .top-info {
     text-transform: uppercase;
-    line-height: 16px;
+    font-size: 1.2rem;
+    line-height: 2.4rem;
     padding: 25px 20px;
     letter-spacing: 1px;
   }
@@ -287,6 +288,13 @@ Main Components
   transition: height 0.3s;
   cursor: pointer;
   background: #ffffff;
+}
+.cd-products-table .top-info h4{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  left: 0;
 }
 .cd-products-table .top-info::after {
   /* color gradient below .top-info -  visible when .top-info is fixed */
@@ -315,6 +323,7 @@ Main Components
   -webkit-transition: -webkit-transform 0.3s;
   -moz-transition: -moz-transform 0.3s;
   transition: transform 0.3s;
+  margin: 0 auto;
 }
 .cd-products-table .top-info .check {
   position: relative;
