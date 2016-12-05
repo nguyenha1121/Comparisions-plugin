@@ -113,10 +113,10 @@ jQuery(document).ready(function($){
 		if ( offsetTop <= scrollTop && offsetTop + this.tableHeight - this.topInfoHeight >= scrollTop ) {
 			//fix products top-info && arrows navigation
 			if( !this.table.hasClass('top-fixed') && $(document).height() > offsetTop + $(window).height() + 200) { 
-				this.table.addClass('top-fixed').removeClass('top-scrolling');
+				// this.table.addClass('top-fixed').removeClass('top-scrolling');
 				if( checkMQ() == 'desktop' ) {
-					this.productsTopInfo.css('top', '0');
-					this.navigation.find('a').css('top', '0px');
+					// this.productsTopInfo.css('top', '0');
+					// this.navigation.find('a').css('top', '0px');
 				}
 			}
 
@@ -124,8 +124,8 @@ jQuery(document).ready(function($){
 			//product top-info && arrows navigation -  scroll with table
 			this.table.removeClass('top-fixed').addClass('top-scrolling');
 			if( checkMQ() == 'desktop' )  {
-				this.productsTopInfo.css('top', (this.tableHeight - this.topInfoHeight) +'px');
-				this.navigation.find('a').css('top', (this.tableHeight - this.topInfoHeight) +'px');
+				// this.productsTopInfo.css('top', (this.tableHeight - this.topInfoHeight) +'px');
+				// this.navigation.find('a').css('top', (this.tableHeight - this.topInfoHeight) +'px');
 			}
 		} else {
 			//product top-info && arrows navigation -  reset style
