@@ -23,30 +23,46 @@
 	}
 
 	$(document).ready(function(){
+
+
+
+		var label = document.getElementsByClassName("wooc-label");
+		// console.log(label[0].nextSibling);
+		var c;
+ 		for( c = 0; c < label.length; c++){
+ 			var ck = label[c].nextElementSibling;
+ 			// console.log(ck);	
+ 			if(ck.checked){
+ 				label[c].innerHTML = "Remove";
+ 				label[c].className = label[c].className.replace( /(?:^|\s)cd-add-to-cart(?!\S)/g , '' );
+ 				label[c].className += " remove-item";
+ 			}
+ 			else {
+ 				label[c].innerHTML = "Add to compare";
+ 				label[c].className = label[c].className.replace( /(?:^|\s)remove-item(?!\S)/g , '' );
+ 				label[c].className += " cd-add-to-cart";
+ 			}
+
+ 		}
+
+ 		$('.wooc-label').click(function(){
+ 			var check = $(this).next();
+ 			// alert ("sss");
+ 			if(check.is(":checked")){
+ 				$(this).text("Add to compare");
+ 				$(this).addClass("cd-add-to-cart");
+ 				$(this).removeClass('remove-item');
+ 				
+ 			}
+ 			else {
+ 				$(this).text("Remove");
+ 				$(this).addClass("remove-item");
+ 				$(this).removeClass('cd-add-to-cart');
+ 			}
+ 		})
 		
 		$('.go-compare-page').click(function(event){
-			// event.preventDefault();
-			// var href = document.getElementById('woo-go-compare-page').href;
-			// var array = document.getElementsByClassName('woo_compare_checkbox');
-			// var result=[];
-			// for(var i = 0;i<array.length;i++){
-			// 	if(array[i].checked){
-			// 		var temp = array[i].value;
-			// 		result.push(temp);
-			// 	}
-			// }
-			// $.ajax({
-			// 	type	:	'post',
-			// 	data	:	{'action' : 'woo_compare_ajax','data' : result},
-			// 	url		: 	ajax.url	,
-			// 	success : function(results){
-			// 		if(results=='null'){
-			// 			alert('You need choose any product to compare');
-			// 		}
-			// 		else
-			// 		location.href = href;
-			// 	}  
-			// })
+			
 		});
 		var ar = [];
 		var temp = [];
@@ -58,17 +74,18 @@
 				ar.push(cs[i]);
 			}
 		}
-		console.log(ar);
+		// console.log(ar);
 		$('.woo_compare_checkbox').change(function(){
 			
 			if($(this).is(":checked")){
 				ar.push($(this).val());
+				ar.sort();
 				for(var i = 1 ;i<ar.length;i++){
 					if(ar[i-1]==ar[i]){
 						ar.splice(i-1,1);
 					}
 				}
-				console.log(ar);
+				// console.log(ar);
 				setCookie('wooc-cks',ar,1);
 			}
 			else {
@@ -77,13 +94,19 @@
 				if (i != -1) {
 				    ar.splice(i,1);
 				}
+				ar.sort();
+				for(var i = 1 ;i<ar.length;i++){
+					if(ar[i-1]==ar[i]){
+						ar.splice(i-1,1);
+					}
+				}
 				setCookie('wooc-cks',ar,1);
 				var cs = document.cookie;
-				// console.log(cs);
+				console.log(cs);
 			}
 		})
 
- 
+
 
 	})
 	/**

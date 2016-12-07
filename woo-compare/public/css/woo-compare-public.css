@@ -5,3 +5,12 @@
 .cd-products-comparison-table ul{
     list-style: none!important;
 }
+.cd-cart ul{
+	list-style-type: none;
+}
+.cd-cart ul li .product-details{
+	text-align: left;
+}
+.cd-cart ul li {
+	padding-bottom: 10px;
+}

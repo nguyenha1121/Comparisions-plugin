@@ -87,6 +87,7 @@ class Woo_Compare_Public {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wooc-style.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name."1", plugin_dir_url( __FILE__ ) . 'css/wooc-reset.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name."2", plugin_dir_url( __FILE__ ) . 'css/woo-compare-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name."3", plugin_dir_url( __FILE__ ) . 'css/addtocartstyle.css', array(), $this->version, 'all' );
 
 	}
 
@@ -110,8 +111,9 @@ class Woo_Compare_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/modernizr.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( $this->plugin_name."ss", plugin_dir_url( __FILE__ ) . 'js/main.js', array( 'jquery' ), $this->version, false );
-		wp_register_script('ez_script', plugin_dir_url( __FILE__ ) . 'js/woo-compare-public.js', array( 'jquery' ), $this->version, false);
+		wp_enqueue_script( $this->plugin_name."1", plugin_dir_url( __FILE__ ) . 'js/woo-compare-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name."2", plugin_dir_url( __FILE__ ) . 'js/main.js', array( 'jquery' ), $this->version, false );
+		wp_register_script('ez_script', plugin_dir_url( __FILE__ ) . 'js/addtocartmain.js', array( 'jquery' ), $this->version, false);
 	    wp_localize_script('ez_script','ajax',array('url'=> admin_url('admin-ajax.php')));
 	    wp_enqueue_script('ez_script');
 
@@ -123,8 +125,8 @@ class Woo_Compare_Public {
 
 
 	function wc_get_product_price( $product_id ) {
-	    $_product = wc_get_product( $product_id );
-	    $price = $_product->get_price();
+	    // $_product = wc_get_product( $product_id );
+	    $price = get_post_meta( $product_id, '_regular_price', true);
 	    return $price;
 	}
 	    
@@ -132,14 +134,16 @@ class Woo_Compare_Public {
 
 	public function woo_compare_ajax(){
 
-		$result = $_POST['data'];
-		$name = "ids";
-		// $old = array();
-		// $old = $_COOKIE[$name];	
-		setcookie( $name, json_encode($result), time() + (86400), "/" );	
-		if($result == null){
-			echo 'null';
+		$sec_id = $_POST['data'];
+		$id = intval($_POST['id']);
+		$product = get_post($id);
+		$price = get_post_meta( $id, '_regular_price', true);
+		if(get_post_thumbnail_id( $id )==''){
+			$url[0] = 'http://honganhtesol.com/Home/wp-content/uploads/2016/09/default.jpg';
 		}
+		else $url = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' );
+		$title = $product->post_title;
+		echo '<li class="product" data-id="'.$id.'" id="wooc-label-'.$id.'"><div class="product-image"><a href="#0"><img src="'.$url[0].'" alt="placeholder"></a></div><div class="product-details"><div><h3><a href="#0">'.$title.'</a></h3><span class="price">'.$price.'</span></div><div class="actions" style="position: relative;"><a style="position: absolute; bottom: -30px;left: 0;" href="#0" class="delete-item">Delete</a></div></li>';
 		die();
 	}
 
@@ -164,6 +168,8 @@ class Woo_Compare_Public {
 	public function woo_compare_check_compare_page($id){
 		$page = get_post($id);
 		// var_dump($_COOKIE);
+		// $p = get_post(15);
+		// var_dump($p->post_title);
 		// var_dump($page);
 		if($page == null || $page->post_status=='trash'){
 			$post = array(
@@ -191,9 +197,19 @@ class Woo_Compare_Public {
 
 	public function woo_compare_add_checkbox(){
 		global $product;
-		// var_dump($product->list_attributes());
+		// var_dump($product->price);
+		// var_dump($_COOKIE['wooc-cks']);
+		$scoo = explode(",", $_COOKIE['wooc-cks']);
+		$check = false;
+		foreach ($scoo as $key => $value) {
+			if($value == $product->id){
+				$check = true;
+			}
+		}
+		// var_dump($s);
 		?>
-		<input class="woo_compare_checkbox" type="checkbox" name="add_compare" value="<?php
+		<label class="button wooc-label cd-add-to-cart" id="wooc-la-<?php echo $product->id;?>" data-price="<?php echo $product->price; ?>" data-id="<?php echo $product->id;?>" style="-webkit-appearance: push-button; -moz-appearance: button; cursor: pointer;" for="<?php echo "wooc-checkbox-".$product->id; ?>">Add to compare</label>
+		<input id="<?php echo "wooc-checkbox-".$product->id; ?>"  style="display:none;" class="woo_compare_checkbox" type="checkbox"<?php if($check){ echo "checked";} ?> name="add_compare" value="<?php
 		// id product
 			echo $product->id;
 		?>">
@@ -202,15 +218,53 @@ class Woo_Compare_Public {
 
 	public function woo_compare_submit(){
 		$page = get_post(get_option('woo_compare_page_id'));
+
 		?>
-		<a id="woo-go-compare-page" class="go-compare-page" href="<?php echo $page->guid ;?>">View Comparisions</a>
+		<!-- <a id="woo-go-compare-page" class="go-compare-page" href="<?php echo $page->guid ;?>">View Comparisions</a> -->
+
+		<!-- <main>
+			<input href="#0" type="button" class="cd-add-to-cart" data-price="25.99">
+		</main> -->
+
+		<div class="cd-cart-container empty">
+			<a href="#0" class="cd-cart-trigger">
+				Cart
+				<ul class="count"> <!-- cart items count -->
+					<li>0</li>
+					<li>0</li>
+				</ul> <!-- .count -->
+			</a>
+
+			<div class="cd-cart">
+				<div class="wrapper">
+					<header>
+						<h2>Cart</h2>
+						<span class="undo">Item removed. <a href="#0">Undo</a></span>
+					</header>
+					
+					<div class="body">
+						<ul>
+							<!-- products added to the cart will be inserted here using JavaScript -->
+						</ul>
+					</div>
+
+					<footer>
+						<a href="<?php echo $page->guid ;?>" class="checkout btn"><em>Detail..</em></a>
+					</footer>
+				</div>
+			</div> <!-- .cd-cart -->
+		</div> <!-- cd-cart-container -->
+		<script>
+			if( !window.jQuery ) document.write('<script src="<?php echo  plugin_dir_url( __FILE__ ) ."js/jquery-3.0.0.min.js"; ?>"><\/script>');
+		</script>
 		<?php
 	}
 
 	public function woo_compare_compare_page_sc($args,$content){
 		$_pr = new WC_Product_Factory();
 		$ids = $_COOKIE['wooc-cks'];
-		if(!isset($_COOKIE['wooc-cks'])) {
+		// var_dump($ids);
+		if(!isset($_COOKIE['wooc-cks'])||$ids=="") {
 			// when not select another product
 			echo "Not item selcected!";
 			return ;
@@ -273,6 +327,7 @@ class Woo_Compare_Public {
 					<?php
 					foreach ($s as $k => $value) {
 						$post = $_pr->get_product($value);
+						// var_dump($post);
 						// var_dump($post->get_average_rating( ));
 						?>
 						<li class="product">
@@ -343,7 +398,7 @@ class Woo_Compare_Public {
 				</ul>
 			</div> <!-- .cd-products-table -->
 		</section> <!-- .cd-products-comparison-table -->
-				<?php
+	<?php
 
 		
 		
