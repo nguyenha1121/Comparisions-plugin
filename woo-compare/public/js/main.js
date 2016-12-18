@@ -221,6 +221,7 @@ jQuery(document).ready(function($){
 	}
 
 	productsTable.prototype.updateSlider = function(bool) {
+		this.tableColumns.css('width', this.productWidth*this.productsNumber + 'px');
 		var scrollLeft = this.productsWrapper.scrollLeft();
 		scrollLeft = ( bool ) ? scrollLeft + this.productWidth : scrollLeft - this.productWidth;
 

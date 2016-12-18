@@ -29,4 +29,12 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+  // $( function() {
+  //   $( "#sortable" ).sortable({
+  //     placeholder: "ui-state-highlight"
+  //   });
+  //   $( "#sortable" ).disableSelection();
+  // } );
+
+
 })( jQuery );

@@ -33,12 +33,15 @@
  			var ck = label[c].nextElementSibling;
  			// console.log(ck);	
  			if(ck.checked){
- 				label[c].innerHTML = "Remove";
+ 				var s = label[c].getAttribute("data-data");
+ 				label[c].innerHTML = s;
  				label[c].className = label[c].className.replace( /(?:^|\s)cd-add-to-cart(?!\S)/g , '' );
  				label[c].className += " remove-item";
  			}
  			else {
- 				label[c].innerHTML = "Add to compare";
+ 				var s = label[c].getAttribute("data-data2");
+ 				label[c].innerHTML = s;
+ 				//label[c].innerHTML = "Add to compare";
  				label[c].className = label[c].className.replace( /(?:^|\s)remove-item(?!\S)/g , '' );
  				label[c].className += " cd-add-to-cart";
  			}
@@ -49,13 +52,13 @@
  			var check = $(this).next();
  			// alert ("sss");
  			if(check.is(":checked")){
- 				$(this).text("Add to compare");
+ 				$(this).text($(this).attr("data-data2"));
  				$(this).addClass("cd-add-to-cart");
  				$(this).removeClass('remove-item');
  				
  			}
  			else {
- 				$(this).text("Remove");
+ 				$(this).text($(this).attr("data-data"));
  				$(this).addClass("remove-item");
  				$(this).removeClass('cd-add-to-cart');
  			}

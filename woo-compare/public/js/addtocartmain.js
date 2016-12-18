@@ -1,7 +1,4 @@
 jQuery(document).ready(function($){
-	var cartWrapper = $('.cd-cart-container');
-	//product id - you don't need a counter in your real project but you can use your real product id
-	var productId = 0;
 	///get/set cookie
 	function setCookie(cname, cvalue, exdays) {
 	    var d = new Date();
@@ -25,10 +22,19 @@ jQuery(document).ready(function($){
 	    return "";
 	}
 	///
+
+
+
+	var cartWrapper = $('.cd-cart-container');
+	//product id - you don't need a counter in your real project but you can use your real product id
+	var productId = 0;
 	if( cartWrapper.length > 0 ) {
 		//store jQuery objects
-		var cartBody = cartWrapper.find('.body')
+		var cartBody = cartWrapper.find('.body');
+		// var cartBody = $('.wooc-widget-body');
+
 		var cartList = cartBody.find('ul').eq(0);
+		// var cartList = $('.wooc-widget-body').find('ul').eq(0);
 		var cartTotal = cartWrapper.find('.checkout').find('span');
 		var cartTrigger = cartWrapper.children('.cd-cart-trigger');
 		var cartCount = cartTrigger.children('.count')
@@ -159,8 +165,6 @@ jQuery(document).ready(function($){
 
 	function addProduct(id) {
 		//this is just a product placeholder
-		//you should insert an item with the selected product info
-		//replace productId, productName, price and url with your real product info
 		productId = productId + 1;
 		$.ajax({
 			type : "post",
@@ -189,7 +193,7 @@ jQuery(document).ready(function($){
 		//update items count + total price
 		updateCartTotal(productTotPrice, false);
 		updateCartCount(true, -productQuantity);
-		undo.addClass('visible');
+		// undo.addClass('visible');
 
 		//wait 8sec before completely remove the item
 		undoTimeoutId = setTimeout(function(){

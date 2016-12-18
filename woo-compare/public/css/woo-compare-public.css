@@ -11,6 +11,20 @@
 .cd-cart ul li .product-details{
 	text-align: left;
 }
+.cd-cart ul li .product-details span{
+	margin: 0 0 .5407911001em;
+}
 .cd-cart ul li {
 	padding-bottom: 10px;
 }
+.wooc-widget-css .product{
+	// border : 1px solid #ddd; margin-bottom : 20px; border-radius:10px;padding:0px;
+	// position: absolute; top: -210px;left: 10px;
+	
+}
+ul.cd-features-list{
+	margin: 0 auto;
+}
+// body{
+// 	background: red!important;
+// }
