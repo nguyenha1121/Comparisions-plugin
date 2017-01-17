@@ -242,7 +242,7 @@ class Woo_Compare_Public {
 		// var_dump(!isset(get_option(wooc_option)['title-2']));
 		?>
 
-		<label class="button wooc-label cd-add-to-cart" id="wooc-la-<?php echo $product->id;?>" data-price="<?php echo $product->price; ?>" data-data="<?php 
+		<a href="#" class="button wooc-a wooc-label  <?php if($check){ echo "added";} ?>" id="wooc-la-<?php echo $product->id;?>"data-price="<?php echo $product->price; ?>" data-data="<?php 
 			if(!isset(get_option(wooc_option)['title-2'])||(get_option(wooc_option)['title-2']=="")) {
 				$e = "Remove";
 			}
@@ -254,11 +254,7 @@ class Woo_Compare_Public {
 			}
 			else $e = get_option(wooc_option)['title-1'];
 			echo $e;
-		?>" data-id="<?php echo $product->id;?>" style="-webkit-appearance: push-button; -moz-appearance: button; cursor: pointer;" for="<?php echo "wooc-checkbox-".$product->id; ?>">Add to compare</label>
-		<input id="<?php echo "wooc-checkbox-".$product->id; ?>"  style="display:none;" class="woo_compare_checkbox" type="checkbox"<?php if($check){ echo "checked";} ?> name="add_compare" value="<?php
-		// id product
-			echo $product->id;
-		?>">
+		?>" data-id="<?php echo $product->id;?>" style="-webkit-appearance: push-button; -moz-appearance: button; cursor: pointer;" for="<?php echo "wooc-checkbox-".$product->id; ?>"></a>
 		<?php
 	}
 
@@ -326,7 +322,13 @@ class Woo_Compare_Public {
 		$list = wc_get_attribute_taxonomies();
 		$actv = get_option('wooc_option')['order-pub'];
 		$actv = explode(",", $actv);
-		// var_dump($actv);
+		var_dump($actv);
+		// $te = array();
+		// // $e = "sss";
+		// $es = "dd";
+		// $e[$es]=$es;
+		// array_push($te,$e);
+		// var_dump($te);
 		?>
 		<!-- <section class="cd-intro">
 			<h1><?php _e('Products Comparison Table','woo-compare'); ?></h1>
@@ -352,37 +354,51 @@ class Woo_Compare_Public {
 							
 							$list_actv = array();
 							$list_ac = array();
-
 							if(($actv!='')){
 								foreach ($actv as $key => $value) {
-									if($value == "price"){
+									$value = explode(';', $value);
+									if($value[0] == "price"){
 										
 										if(!isset(get_option(wooc_option)['title-4'])||(get_option(wooc_option)['title-4']=="")) {
 											$e = "Price";
 										}
 										else $e = get_option(wooc_option)['title-4'];
-										array_push($list_actv,$e);
-										array_push($list_ac,'price');
+										$f = array();
+										$f[$e] = $value[1];
+										array_push($list_actv,$f);
+										$f2 = array();
+										$f2['price'] = $value[1];
+										array_push($list_ac,$f2);
 									}
-									if($value == "rating"){
+									if($value[0] == "rating"){
 										if(!isset(get_option(wooc_option)['title-5'])||(get_option(wooc_option)['title-5']=="")) {
 											$e = "Customer rating";
 										}
 										else $e = get_option(wooc_option)['title-5'];
-										array_push($list_actv,$e);
-										array_push($list_ac,'rating');
+										$f = array();
+										$f[$e] = $value[1];
+										array_push($list_actv,$f);
+										$f2 = array();
+										$f2['rating'] = $value[1];
+										array_push($list_ac,$f2);
 									}
 									foreach ($list as $k => $v) {
 										// var_dump($v->attribute_name==$value);
 
-										if($value == $v->attribute_name){
-											array_push($list_actv,$v->attribute_label);
-											array_push($list_ac,'pa_'.$v->attribute_name);
+										if($value[0] == $v->attribute_name){
+											$f = array();
+											$f[$v->attribute_label] = $value[1];
+											array_push($list_actv,$f);
+											$f2 = array();
+											$f2['pa_'.$v->attribute_name] = $value[1];
+											array_push($list_ac,$f2);
 										}
 									}
 								}
 								foreach ($list_actv as $key => $value) {
-									echo '<li>'.$value.'</li>';
+									foreach ($value as $k => $v) {
+										echo '<li class="'.$v.'">'.$k.'</li>';
+									}
 								}
 							}
 							
@@ -421,45 +437,47 @@ class Woo_Compare_Public {
 								// foreach attributes
 								// var_dump(wc_get_product_terms( $value, 'pa_mau-sac', array( 'fields' => 'names' ) ));
 								foreach ($list_ac as $k => $v) {
-									// echo $values[name];
-									if($v == 'price'){?>
-										<li><?php echo ($this->wc_get_product_price($value)); ?></li>
-									<?php }
-									if($v == 'rating'){?>
-										<li class="wooc-ratting" style="min-height: 76px;">
-											<?php 	$rating_count = $post->get_rating_count();
-													$review_count = $post->get_review_count();
-													$average      = $post->get_average_rating(); ?>
-												<div class="woocommerce-product-rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-												<div class="star-rating" style="margin:0 auto;" title="<?php printf( __( 'Rated %s out of 5', 'woocommerce' ), $average ); ?>">
-													<span style="width:<?php echo ( ( $average / 5 ) * 100 ); ?>%">
-														<strong itemprop="ratingValue" class="rating"><?php echo esc_html( $average ); ?></strong> <?php printf( __( 'out of %s5%s', 'woocommerce' ), '<span itemprop="bestRating">', '</span>' ); ?>
-														<?php printf( _n( 'based on %s customer rating', 'based on %s customer ratings', $rating_count, 'woocommerce' ), '<span itemprop="ratingCount" class="rating">' . $rating_count . '</span>' ); ?>
-													</span>
-												</div>
-												<?php if ( comments_open() ) : ?><a href="#reviews" class="woocommerce-review-link" rel="nofollow">(<?php printf( _n( '%s customer review', '%s customer reviews', $review_count, 'woocommerce' ), '<span itemprop="reviewCount" class="count">' . $review_count . '</span>' ); ?>)</a><?php endif ?>
-												</div>
-											</li>
-										<?php
-										}
-									
-									if($v != 'rating' && $v != 'price'){
-										echo "<li>";
-										$ck = false;
-										foreach ($arttris as $keys => $values) {
-											if($values[name]==$v){
-												$vl = wc_get_product_terms( $value, $v , array( 'fields' => 'names' ) );
-												// var_dump($vl);
-													foreach ($vl as $ke => $va) {
-														
-														echo $va."&nbsp;";
-														$ck = true;
-													}	
-												}
-												
+									foreach ($v as $v => $k) {
+										// echo $values[name];
+										if($v == 'price'){?>
+											<li><?php echo ($this->wc_get_product_price($value)); ?></li>
+										<?php }
+										if($v == 'rating'){?>
+											<li class="wooc-ratting" style="min-height: 75px;">
+												<?php 	$rating_count = $post->get_rating_count();
+														$review_count = $post->get_review_count();
+														$average      = $post->get_average_rating(); ?>
+													<div class="woocommerce-product-rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+													<div class="star-rating" style="margin:0 auto;" title="<?php printf( __( 'Rated %s out of 5', 'woocommerce' ), $average ); ?>">
+														<span style="width:<?php echo ( ( $average / 5 ) * 100 ); ?>%">
+															<strong itemprop="ratingValue" class="rating"><?php echo esc_html( $average ); ?></strong> <?php printf( __( 'out of %s5%s', 'woocommerce' ), '<span itemprop="bestRating">', '</span>' ); ?>
+															<?php printf( _n( 'based on %s customer rating', 'based on %s customer ratings', $rating_count, 'woocommerce' ), '<span itemprop="ratingCount" class="rating">' . $rating_count . '</span>' ); ?>
+														</span>
+													</div>
+													<?php if ( comments_open() ) : ?><a href="#reviews" class="woocommerce-review-link" rel="nofollow">(<?php printf( _n( '%s customer review', '%s customer reviews', $review_count, 'woocommerce' ), '<span itemprop="reviewCount" class="count">' . $review_count . '</span>' ); ?>)</a><?php endif ?>
+													</div>
+												</li>
+											<?php
 											}
-										if(!$ck) echo "None";
-										echo '</li>';
+										
+										if($v != 'rating' && $v != 'price'){
+											echo "<li>";
+											$ck = false;
+											foreach ($arttris as $keys => $values) {
+												if($values[name]==$v){
+													$vl = wc_get_product_terms( $value, $v , array( 'fields' => 'names' ) );
+													// var_dump($vl);
+														foreach ($vl as $ke => $va) {
+															
+															echo $va."&nbsp;";
+															$ck = true;
+														}	
+													}
+													
+												}
+											if(!$ck) echo "None";
+											echo '</li>';
+										}
 									}
 								}
 								?>

@@ -225,6 +225,14 @@ Main Components
   border-style: solid;
   border-top-width: 1px;
   border-right-width: 1px;
+  // max-height: 75px;
+}
+
+.cd-features-list li {
+  max-height: 75px !important;
+}
+li.wooc-ratting{
+  max-height: 75px !important;
 }
 .cd-features-list li.rate {
   /* rating stars */

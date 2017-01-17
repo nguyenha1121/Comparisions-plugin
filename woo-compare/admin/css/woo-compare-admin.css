@@ -5,22 +5,32 @@
  .wooc-listyle{
  	display: flex;
  	justify-content : space-between;
- 	width: 200px;
+ 	width: 500px;
  	height: 50px;
- 	background: #cdcdcd;
+ 	background: #fff;
  	padding-right: 30px;
  	border: 1px solid #ddd;
  }
  .wooc-listyle p{
  	font-size: 20px;
  	padding-left: 30px;
- 	line-height: 50px;
+ 	// line-height: 50px;
+ 	margin: auto 0!important;
  }
 .wooc-listyle div{
- 	line-height: 50px;
+ 	// line-height: 50px;
+ 	// display: flex;
+ 	// justify-content: space-between;
  }
 .wooc-title-button{
- 	width: 400px;
+ 	width: 600px;
  	display: flex;
  	justify-content : space-between;
+ }
+ .wooc-title-button input{
+ 	width: 300px;
+ 	height: 40px;
+ }
+ .wooc-input-2{
+ 	display: none;
  }

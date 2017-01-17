@@ -67,7 +67,7 @@ jQuery(document).ready(function($){
 	var productId = 0;
 	var cartList = $('.wooc-widget-body').find('ul').eq(0);
 	var cartBody = $('.wooc-widget-body');
-	var addToCartBtn = $('.wooc-label');
+	var addToCartBtn = $('.wooc-a');
 	//init
 	var ar = [];
 		var cs = getCookie('wooc-cks');
@@ -88,7 +88,7 @@ jQuery(document).ready(function($){
 
 	addToCartBtn.on('click', function(event){
 		// event.preventDefault();
-		if(!$(this).hasClass('cd-add-to-cart')){
+		if($(this).hasClass('added')){
 			addToCart($(this));
 		}
 		else{
@@ -116,7 +116,8 @@ jQuery(document).ready(function($){
 			setCookie('wooc-cks',ar,1);
 			var cid = "#wooc-la-"+id;
 			var iid = "#wooc-checkbox-"+id;
-			$(cid).text("Add to compare");
+			$(cid).removeClass("added");
+			$(cid).text($(cid).attr("data-data2"));
 			$(cid).addClass("cd-add-to-cart");
 			$(cid).removeClass('remove-item');
 			$(iid).attr('checked',false);

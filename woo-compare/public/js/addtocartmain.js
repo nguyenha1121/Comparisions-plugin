@@ -38,7 +38,7 @@ jQuery(document).ready(function($){
 		var cartTotal = cartWrapper.find('.checkout').find('span');
 		var cartTrigger = cartWrapper.children('.cd-cart-trigger');
 		var cartCount = cartTrigger.children('.count')
-		var addToCartBtn = $('.wooc-label');
+		var addToCartBtn = $('.wooc-a');
 		var undo = cartWrapper.find('.undo');
 		var undoTimeoutId;
 
@@ -66,8 +66,8 @@ jQuery(document).ready(function($){
 
 		//add product to cart
 		addToCartBtn.on('click', function(event){
-			// event.preventDefault();
-			if(!$(this).hasClass('cd-add-to-cart')){
+			event.preventDefault();
+			if($(this).hasClass('added')){
 				addToCart($(this));
 			}
 			else{

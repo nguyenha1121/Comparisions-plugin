@@ -175,7 +175,7 @@ class Woo_Compare_Admin {
         );
         add_settings_field(
             'title_button', // ID
-            'Edit title button', // Title 
+            'Edit title button and text', // Title 
             array( $this, 'title_callback' ), // Callback
             'wooc-setting-admin', // Page
             'wooc_setting_section' // Section           
@@ -232,50 +232,46 @@ class Woo_Compare_Admin {
             foreach ($check as $k => $v) {
                 $v = explode(";", $v);
                 if($v[0]=='price'){
+                    $index = 'price';
                     if($v[1]=='1'){
-                        
-                        
-
                         echo '<li class="ui-state-default wooc-listyle">';
                         echo '<p>' .'Price'.'&nbsp;</p>';
-                        echo '<div>';
-                        echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+                        echo '<div>'; 
                         printf( 
                             '<input class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,'price',
                              ''
                         );
+                        echo '<input class="wooc-input-2" type="text" name="'.$index.'" value="'.$v[2].'"/> ';
                         echo '</div>';
                         echo "</li>";
                         echo "\n";
                     }
                     else{
-                        
-
                         echo '<li class="ui-state-default wooc-listyle">';
                         echo '<p>' .'Price'.'&nbsp;</p>';
                         echo '<div>';
-                        echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+                       
                         printf( 
                             '<input class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,'price',
                              'un'
                         );
+                        echo '<input class="wooc-input-2" type="text" name="'.$index.'" value="'.$v[2].'"/> ';
                         echo '</div>';
                         echo "</li>";
                         echo "\n";
                     }
                 }
                 if($v[0]=='rating'){
+                    $index = 'rating';
                     if($v[1]=='1'){
-                        
-
                         echo '<li class="ui-state-default wooc-listyle">';
                         echo '<p>' .'Customer rating'.'&nbsp;</p>';
                         echo '<div>';
-                        echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
                         printf( 
                             '<input class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,'rating',
                              ''
                         );
+                        echo '<input class="wooc-input-2" type="text" name="'.$index.'" value="'.$v[2].'"/> ';
                         echo '</div>';
                         echo "</li>";
                         echo "\n";
@@ -285,11 +281,11 @@ class Woo_Compare_Admin {
                         echo '<li class="ui-state-default wooc-listyle">';
                         echo '<p>' .'Price'.'&nbsp;</p>';
                         echo '<div>';
-                        echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
                         printf( 
                             '<input class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,'rating',
                              'un'
                         );
+                        echo '<input class="wooc-input-2" type="text" name="'.$index.'" value="'.$v[2].'"/> ';
                         echo '</div>';
                         echo "</li>";
                         echo "\n";
@@ -303,11 +299,12 @@ class Woo_Compare_Admin {
                             echo '<li class="ui-state-default wooc-listyle">';
                             echo '<p>' .$value->attribute_label.'&nbsp;</p>';
                             echo '<div>';
-                            echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+                           
                             printf( 
                                 '<input order="'.$order.'" class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,$index,
                                  ''
                             );
+                            echo '<input class="wooc-input-2" type="text" name="'.$index.'" value="'.$v[2].'"/> ';
                             echo '</div>';
                             echo "</li>";
                             echo "\n";
@@ -317,11 +314,12 @@ class Woo_Compare_Admin {
                             echo '<li class="ui-state-default wooc-listyle">';
                             echo '<p>' .$value->attribute_label.'&nbsp;</p>';
                             echo '<div>';
-                            echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+                           
                             printf( 
                                 '<input order="'.$order.'" class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,$index,
                                  'un'
                             );
+                            echo '<input class="wooc-input-2" type="text" name="'.$index.'" value="'.$v[2].'"/> ';
                             echo '</div>';
                             echo "</li>";
                             echo "\n";
@@ -336,22 +334,25 @@ class Woo_Compare_Admin {
             echo '<li class="ui-state-default wooc-listyle">';
             echo '<p>' .'Price'.'&nbsp;</p>';
             echo '<div>';
-            echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+           
             printf( 
-                '<input class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,'price',
+                '<input class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>','price','price',
                  'un'
             );
+            echo '<input class="wooc-input-2" type="text" name="price" value=""/> ';
+            // echo '<input class="wooc-in-class" namesss'
             echo '</div>';
             echo "</li>";
             echo "\n";
             echo '<li class="ui-state-default wooc-listyle">';
             echo '<p>' .'Customer rating'.'&nbsp;</p>';
             echo '<div>';
-            echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+           
             printf( 
-                '<input order="'.$order.'" class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,'rating',
+                '<input order="'.$order.'" class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>','rating','rating',
                  'un'
             );
+            echo '<input class="wooc-input-2" type="text" name="rating" value=""/> ';
             echo '</div>';
             echo "</li>";
             echo "\n";
@@ -361,11 +362,12 @@ class Woo_Compare_Admin {
                 echo '<li class="ui-state-default wooc-listyle">';
                 echo '<p>' .$value->attribute_label.'&nbsp;</p>';
                 echo '<div>';
-                echo '<label style="font-size : 20px; color : #000; " for="'.$index.'"></label>';
+               
                 printf( 
                     '<input order="'.$order.'" class="wooc-input squaredThree" type="checkbox" id="%1s" name="%2s" %3schecked  value="1"/><br>',$index,$index,
                      'un'
                 );
+                echo '<input class="wooc-input-2" type="text" name="'.$index.'" value=""/> ';
                 echo '</div>';
                 echo "</li>";
                 echo "\n";
@@ -380,11 +382,13 @@ class Woo_Compare_Admin {
                     var input = document.getElementsByClassName("wooc-input");
                     for (var i = 0; i<input.length ; i++){
                         if( input[i].checked ){
-                            order.push(input[i].name+";1");
-                            order_pub.push(input[i].name);
+                            var x= input[i].nextElementSibling.nextElementSibling.value;
+                            order.push(input[i].name+";1"+";"+x);
+                            order_pub.push(input[i].name+";"+x);
                         }
                         else{
-                            order.push(input[i].name+";0");
+                            var x= input[i].nextElementSibling.nextElementSibling.value;
+                            order.push(input[i].name+";0"+";"+x);
                         }
                     }
                     console.log(order);
@@ -396,11 +400,32 @@ class Woo_Compare_Admin {
                         var input = document.getElementsByClassName("wooc-input");
                         for (var i = 0; i<input.length ; i++){
                             if( input[i].checked ){
-                                order.push(input[i].name+";1");
-                                order_pub.push(input[i].name);
+                                var x= input[i].nextElementSibling.nextElementSibling.value;
+                                order.push(input[i].name+";1"+";"+x);
+                                order_pub.push(input[i].name+";"+x);
                             }
                             else{
-                                order.push(input[i].name+";0");
+                                var x= input[i].nextElementSibling.nextElementSibling.value;
+                                order.push(input[i].name+";0"+";"+x);
+                            }
+                        }
+                        console.log(order);
+                        $("#wooc-order").val(order);
+                        $("#wooc-order-2").val(order_pub);
+                    });
+                    $(".wooc-input-2").change(function(){
+                        var order = [];
+                        var order_pub = [];
+                        var input = document.getElementsByClassName("wooc-input");
+                        for (var i = 0; i<input.length ; i++){
+                            if( input[i].checked ){
+                                var x= input[i].nextElementSibling.nextElementSibling.value;
+                                order.push(input[i].name+";1"+";"+x);
+                                order_pub.push(input[i].name+";"+x);
+                            }
+                            else{
+                                var x= input[i].nextElementSibling.nextElementSibling.value;
+                                order.push(input[i].name+";0"+";"+x);
                             }
                         }
                         console.log(order);
@@ -411,16 +436,17 @@ class Woo_Compare_Admin {
                       placeholder: "ui-state-highlight",
                       stop: function(even,ui){
                         var input = document.getElementsByClassName("wooc-input");
-                        // input[0].value = "hahah";
                         var order = [];
                         var order_pub = [];
                         for (var i = 0; i<input.length ; i++){
                             if( input[i].checked ){
-                                order.push(input[i].name+";1");
-                                order_pub.push(input[i].name);
+                                var x= input[i].nextElementSibling.nextElementSibling.value;
+                                order.push(input[i].name+";1"+";"+x);
+                                order_pub.push(input[i].name+";"+x);
                             }
                             else{
-                                order.push(input[i].name+";0");
+                                var x= input[i].nextElementSibling.nextElementSibling.value;
+                                order.push(input[i].name+";0"+";"+x);
                             }
                         }
                         $("#wooc-order").val(order);

@@ -29,12 +29,28 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
-  // $( function() {
-  //   $( "#sortable" ).sortable({
-  //     placeholder: "ui-state-highlight"
-  //   });
-  //   $( "#sortable" ).disableSelection();
-  // } );
+ 	$(document).ready(function(){
+ 		$('.wooc-input').each(function(){
+ 			if($(this).is(':checked')){
+ 				$(this).next().next().css('display','block');
+ 			}
+ 			else {
+ 				$(this).next().next().css('display','none');
+ 			}
+ 		});
+ 		$('.wooc-input').change(function(){
+ 			if($(this).is(':checked')){
+ 				$(this).next().next().fadeIn();
+ 			}
+ 			else {
+ 				$(this).next().next().fadeOut();
+ 			}
+ 		});
+ 	})
+
+
+
+
 
 
 })( jQuery );
