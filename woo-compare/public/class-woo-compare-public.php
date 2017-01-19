@@ -54,13 +54,13 @@ class Woo_Compare_Public {
 		//ajax
 		add_action('wp_ajax_woo_compare_ajax', array(&$this,'woo_compare_ajax'));
 		add_action('wp_ajax_nopriv_woo_compare_ajax', array(&$this,'woo_compare_ajax'));
-	
+		$get_op = get_option( 'wooc_option' );
 		//single page
-		if(get_option( 'wooc_option' )['singlepg']=="1"){
+		if($get_op['singlepg']=="1"){
 			add_action('woocommerce_before_add_to_cart_form',array(&$this,'woo_compare_add_checkbox'));
 		}
 		//hop page
-		if(get_option( 'wooc_option' )['shoppage']=="1"){
+		if($get_op['shoppage']=="1"){
 			add_action('woocommerce_after_shop_loop_item',array(&$this,'woo_compare_add_checkbox'));
 		}	
 
@@ -171,11 +171,11 @@ class Woo_Compare_Public {
 		}
 		else $url = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' );
 		$title = $product->post_title;
-		
-		if(!isset(get_option(wooc_option)['title-2'])||(get_option(wooc_option)['title-2']=="")) {
+		$get_op = get_option(wooc_option);
+		if(!isset($get_op['title-2'])||($get_op['title-2']=="")) {
 			$e = "Remove";
 		}
-		else $e = get_option(wooc_option)['title-2'];
+		else $e = $get_op['title-2'];
 		echo '<li style="" class="product" data-id="'.$id.'" id="wooc-label-'.$id.'"><div class="product-image"><a href="#0"><img src="'.$url[0].'" alt="placeholder"></a></div><div class="product-details"><div><h3><a href="#0">'.$title.'</a></h3><span class="price">'.$price.'</span></div><div class="actions" style="position: relative;"><a style="" href="#0" class="delete-item">'.$e.'</a></div></li>';
 		die();
 	}
@@ -185,14 +185,15 @@ class Woo_Compare_Public {
 	 */
 	public function woo_compare_auto_add_page(){
 		$check = get_option('woo_compare_page_id');
+		$get_op = get_option(wooc_option);
 		if($check) {
 			$this->woo_compare_check_compare_page($check);
 			return "";
 		}
-		if(!isset(get_option(wooc_option)['title-6'])||(get_option(wooc_option)['title-6']=="")) {
+		if(!isset($get_op['title-6'])||($get_op['title-6']=="")) {
 				$e = "Products Comparison Table";
 		}
-		else $e = get_option(wooc_option)['title-6'];
+		else $e = $get_op['title-6'];
 		$page = array(
 			'post_type'	=> 'page',
 			'post_content'	=> '[woo_compare_compare_content]',
@@ -208,10 +209,11 @@ class Woo_Compare_Public {
 
 	public function woo_compare_check_compare_page($id){
 		$page = get_post($id);
-		if(!isset(get_option(wooc_option)['title-6'])||(get_option(wooc_option)['title-6']=="")) {
+		$get_op = get_option(wooc_option);
+		if(!isset($get_op['title-6'])||($get_op['title-6']=="")) {
 			$e = "Products Comparison Table";
 		}
-		else $e = get_option(wooc_option)['title-6'];
+		else $e = $get_op['title-6'];
 		if($page == null || $page->post_status=='trash' || $page->post_tittle != $e){
 			$post = array(
 				'ID'		=> $id,
@@ -234,25 +236,27 @@ class Woo_Compare_Public {
 		// var_dump($_COOKIE['wooc-cks']);
 		$scoo = explode(",", $_COOKIE['wooc-cks']);
 		$check = false;
+		$get_op = get_option(wooc_option);
 		foreach ($scoo as $key => $value) {
 			if($value == $product->id){
 				$check = true;
 			}
 		}
+
 		// var_dump(!isset(get_option(wooc_option)['title-2']));
 		?>
 
 		<a href="#" class="button wooc-a wooc-label  <?php if($check){ echo "added";} ?>" id="wooc-la-<?php echo $product->id;?>"data-price="<?php echo $product->price; ?>" data-data="<?php 
-			if(!isset(get_option(wooc_option)['title-2'])||(get_option(wooc_option)['title-2']=="")) {
+			if(!isset($get_op['title-2'])||($get_op['title-2']=="")) {
 				$e = "Remove";
 			}
-			else $e = get_option(wooc_option)['title-2'];
+			else $e = $get_op['title-2'];
 			echo $e;
 		?>" data-data2="<?php 
-			if(!isset(get_option(wooc_option)['title-1'])||(get_option(wooc_option)['title-1']=="")) {
+			if(!isset($get_op['title-1'])||($get_op['title-1']=="")) {
 				$e = "Add to compare";
 			}
-			else $e = get_option(wooc_option)['title-1'];
+			else $e = $get_op['title-1'];
 			echo $e;
 		?>" data-id="<?php echo $product->id;?>" style="-webkit-appearance: push-button; -moz-appearance: button; cursor: pointer;" for="<?php echo "wooc-checkbox-".$product->id; ?>"></a>
 		<?php
@@ -260,7 +264,7 @@ class Woo_Compare_Public {
 
 	public function woo_compare_submit(){
 		$page = get_post(get_option('woo_compare_page_id'));
-
+		$get_op = get_option(wooc_option);
 		?>
 		<!-- <a id="woo-go-compare-page" class="go-compare-page" href="<?php echo $page->guid ;?>">View Comparisions</a> -->
 
@@ -292,10 +296,10 @@ class Woo_Compare_Public {
 
 					<footer>
 						<a href="<?php echo $page->guid ;?>" class="checkout btn"><em><?php
-							if(!isset(get_option(wooc_option)['title-3'])||(get_option(wooc_option)['title-3']=="")) {
+							if(!isset($get_op['title-3'])||($get_op['title-3']=="")) {
 								echo "View Comparisions";
 							}
-							else echo get_option(wooc_option)['title-3'];?></em>
+							else echo $get_op['title-3'];?></em>
 						</a>
 					</footer>
 				</div>
@@ -320,7 +324,8 @@ class Woo_Compare_Public {
 		// var_dump($_COOKIE);
 		// list item selected
 		$list = wc_get_attribute_taxonomies();
-		$actv = get_option('wooc_option')['order-pub'];
+		$actv = get_option('wooc_option');
+		$actv = $actv['order-pub'];
 		$actv = explode(",", $actv);
 		var_dump($actv);
 		// $te = array();
@@ -351,7 +356,7 @@ class Woo_Compare_Public {
 						<?php 
 							
 							// var_dump($list);
-							
+							$get_op = get_option(wooc_option);
 							$list_actv = array();
 							$list_ac = array();
 							if(($actv!='')){
@@ -359,10 +364,10 @@ class Woo_Compare_Public {
 									$value = explode(';', $value);
 									if($value[0] == "price"){
 										
-										if(!isset(get_option(wooc_option)['title-4'])||(get_option(wooc_option)['title-4']=="")) {
+										if(!isset($get_op['title-4'])||($get_op['title-4']=="")) {
 											$e = "Price";
 										}
-										else $e = get_option(wooc_option)['title-4'];
+										else $e = $get_op['title-4'];
 										$f = array();
 										$f[$e] = $value[1];
 										array_push($list_actv,$f);
@@ -371,10 +376,10 @@ class Woo_Compare_Public {
 										array_push($list_ac,$f2);
 									}
 									if($value[0] == "rating"){
-										if(!isset(get_option(wooc_option)['title-5'])||(get_option(wooc_option)['title-5']=="")) {
+										if(!isset($get_op['title-5'])||($get_op['title-5']=="")) {
 											$e = "Customer rating";
 										}
-										else $e = get_option(wooc_option)['title-5'];
+										else $e = $get_op['title-5'];
 										$f = array();
 										$f[$e] = $value[1];
 										array_push($list_actv,$f);
@@ -440,10 +445,10 @@ class Woo_Compare_Public {
 									foreach ($v as $v => $k) {
 										// echo $values[name];
 										if($v == 'price'){?>
-											<li><?php echo ($this->wc_get_product_price($value)); ?></li>
+											<li class="<?php echo $k; ?>"><?php echo ($this->wc_get_product_price($value)); ?></li>
 										<?php }
 										if($v == 'rating'){?>
-											<li class="wooc-ratting" style="min-height: 75px;">
+											<li class="wooc-ratting <?php echo $k; ?>" style="min-height: 75px;">
 												<?php 	$rating_count = $post->get_rating_count();
 														$review_count = $post->get_review_count();
 														$average      = $post->get_average_rating(); ?>
@@ -461,7 +466,7 @@ class Woo_Compare_Public {
 											}
 										
 										if($v != 'rating' && $v != 'price'){
-											echo "<li>";
+											echo "<li class='".$k."'>";
 											$ck = false;
 											foreach ($arttris as $keys => $values) {
 												if($values[name]==$v){
@@ -545,16 +550,17 @@ class Wooc_Widget extends WP_Widget {
 		echo $before_title.$title.$after_title;
 		// content here!
 		$page = get_post(get_option('woo_compare_page_id'));
+		$get_op = get_option(wooc_option);
 		?>
 		<div class="wooc-widget-body wooc-widget-css">
 			<ul>
 				<!-- Product here -->
 			</ul>
 			<a class="button" href="<?php echo $page->guid ;?>" class="checkout btn"><em><?php 
-				if(!isset(get_option(wooc_option)['title-3'])||(get_option(wooc_option)['title-3']=="")) {
+				if(!isset($get_op['title-3'])||($get_op['title-3']=="")) {
 				$e = "View Comparisions";
 			}
-			else $e = get_option(wooc_option)['title-3'];
+			else $e = $get_op['title-3'];
 			echo $e; ?></em></a>
 		</div>
 
