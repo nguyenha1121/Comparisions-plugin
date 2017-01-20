@@ -221,7 +221,7 @@ class Woo_Compare_Admin {
         $hidden2 = "wooc_option[order-pub]";
         $check = get_option('wooc_option')['order'];
         $check = explode(",", $check);
-        var_dump($check);
+        // var_dump($check);
         
         echo '<input id="wooc-order" type="hidden" name="'.$hidden.'" value="">';
         echo '<input id="wooc-order-2" type="hidden" name="'.$hidden2.'" value="">';

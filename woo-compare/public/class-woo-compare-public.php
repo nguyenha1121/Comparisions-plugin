@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 /**
  * The public-facing functionality of the plugin.
@@ -151,8 +151,9 @@ class Woo_Compare_Public {
 	* Get price of product
 	*/
 	function wc_get_product_price( $product_id ) {
-	    // $_product = wc_get_product( $product_id );
-	    $price = get_post_meta( $product_id, '_regular_price', true);
+	    $_product = wc_get_product( $product_id );
+	    // $price = get_post_meta( $product_id, '_regular_price', true);
+	    $price =$_product->get_price_html();
 	    return $price;
 	}
 	    
@@ -161,11 +162,11 @@ class Woo_Compare_Public {
 	 */
 
 	public function woo_compare_ajax(){
-
+//////////////////////////
 		$sec_id = $_POST['data'];
 		$id = intval($_POST['id']);
 		$product = get_post($id);
-		$price = get_post_meta( $id, '_regular_price', true);
+		$price = $this->wc_get_product_price($id);
 		if(get_post_thumbnail_id( $id )==''){
 			$url[0] = 'http://honganhtesol.com/Home/wp-content/uploads/2016/09/default.jpg';
 		}
@@ -176,7 +177,7 @@ class Woo_Compare_Public {
 			$e = "Remove";
 		}
 		else $e = $get_op['title-2'];
-		echo '<li style="" class="product" data-id="'.$id.'" id="wooc-label-'.$id.'"><div class="product-image"><a href="#0"><img src="'.$url[0].'" alt="placeholder"></a></div><div class="product-details"><div><h3><a href="#0">'.$title.'</a></h3><span class="price">'.$price.'</span></div><div class="actions" style="position: relative;"><a style="" href="#0" class="delete-item">'.$e.'</a></div></li>';
+		echo '<li style="" class="product" data-id="'.$id.'" id="wooc-label-'.$id.'"><div class="product-image"><a href="#0"><img src="'.$url[0].'" alt="placeholder"></a></div><div class="product-details"><div><h3><a href="#0">'.$title.'</a></h3><span class="price">'.$price.'</span></div><div class="actions" style="position: relative;"><a style="" data-id="'.$id.'" href="#0" class="delete-item">'.$e.'</a></div></li>';
 		die();
 	}
 
@@ -327,7 +328,7 @@ class Woo_Compare_Public {
 		$actv = get_option('wooc_option');
 		$actv = $actv['order-pub'];
 		$actv = explode(",", $actv);
-		var_dump($actv);
+		
 		// $te = array();
 		// // $e = "sss";
 		// $es = "dd";
@@ -445,7 +446,12 @@ class Woo_Compare_Public {
 									foreach ($v as $v => $k) {
 										// echo $values[name];
 										if($v == 'price'){?>
-											<li class="<?php echo $k; ?>"><?php echo ($this->wc_get_product_price($value)); ?></li>
+											<li class="<?php echo $k; ?>">
+												<?php
+
+												echo ($this->wc_get_product_price($value)); 
+												?>
+											</li>
 										<?php }
 										if($v == 'rating'){?>
 											<li class="wooc-ratting <?php echo $k; ?>" style="min-height: 75px;">
@@ -568,3 +574,4 @@ class Wooc_Widget extends WP_Widget {
 		echo $after_widget;
 	}
 }
+?>

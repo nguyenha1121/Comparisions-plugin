@@ -595,3 +595,12 @@ No JS
 .no-js .cd-products-columns .check {
   display: none;
 }
+
+.star-rating{
+  margin: auto;
+}
+a.delete-item {
+    // position: absolute;
+    top: 100%;
+    left: 0;
+}

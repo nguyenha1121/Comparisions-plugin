@@ -449,9 +449,13 @@ Main Components
 .cd-cart h3, .cd-cart .price {
   font-weight: bold;
 }
+.product-details >div {
+  display: flex;
+  justify-content: space-between;
+}
 .cd-cart h3 {
-  width: 70%;
-  float: left;
+  // width: 70%;
+  // float: left;
   /* truncate title with dots if too long */
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -464,8 +468,8 @@ Main Components
   color: #2c97de;
 }
 .cd-cart .price {
-  float: right;
-  width: 30%;
+  // float: right;
+  // width: 30%;
   text-align: right;
 }
 .cd-cart .actions {
@@ -614,7 +618,7 @@ Main Components
     width: 90px;
   }
   .cd-cart .product-details {
-    padding: 1.4em 0 0 1em;
+    // padding: 1.4em 0 0 1em;
     width: calc( 100% - 90px);
   }
   .cd-cart h3, .cd-cart .price {

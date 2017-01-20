@@ -93,6 +93,9 @@ jQuery(document).ready(function($){
 		cartList.on('click', '.delete-item', function(event){
 			// event.preventDefault();
 			removeProduct($(event.target).parents('.product'));
+			var id = $(this).attr("data-id");
+			var idRemove = "#wooc-la-"+id;
+			$(idRemove).removeClass("added");
 			var pr = $(event.target).parents('.product');
 			var id = pr.attr('data-id');
 			var i = ar.indexOf(id);
@@ -109,7 +112,7 @@ jQuery(document).ready(function($){
 			var cid = "#wooc-la-"+id;
 			var iid = "#wooc-checkbox-"+id;
 			$(cid).text("Add to compare");
-			$(cid).addClass("cd-add-to-cart");
+			$(cid).addClass("cd-add-to-carts");
 			$(cid).removeClass('remove-item');
 			$(iid).attr('checked',false);
 		});

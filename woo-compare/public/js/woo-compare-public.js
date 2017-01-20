@@ -43,12 +43,12 @@
 				// alert("ss");
 				var s = label[c].getAttribute("data-data");
 				label[c].innerHTML = s;
-				label[c].className = label[c].className.replace( /(?:^|\s)cd-add-to-cart(?!\S)/g , '' );
+				label[c].className = label[c].className.replace( /(?:^|\s)cd-add-to-carts(?!\S)/g , '' );
 			} 
 			else {
 				var s = label[c].getAttribute("data-data2");
 				label[c].innerHTML = s;
-				label[c].className += "cd-add-to-cart";
+				label[c].className += "cd-add-to-carts";
 				label[c].className = label[c].className.replace( /(?:^|\s)added(?!\S)/g , '' );
 			}
 		}
@@ -57,7 +57,7 @@
 		// 	$(this).removeClass("added");
 		// 	$(this).text($(this).attr("data-data"));
 		// 	$(this).addClass("remove-item");
-		// 	$(this).removeClass('cd-add-to-cart');
+		// 	$(this).removeClass('cd-add-to-carts');
 		// 	var deleteElement = $(this).attr("data-id");
 		// 	var i = ar.indexOf(deleteElement);
 		// 	if (i != -1) {
@@ -78,7 +78,7 @@
 		// 	$(this).addClass("added");
 		// 	var z = $(this).attr("data-data2");
 		// 	$(this).text(z);
-		// 	$(this).addClass("cd-add-to-cart");
+		// 	$(this).addClass("cd-add-to-carts");
 		// 	$(this).removeClass('remove-item');
 		// 	var id = $(this).attr("data-id");
 		// 	ar.push(id);
@@ -99,7 +99,7 @@
 				console.log(txt);
 				$(this).text(txt);
  				$(this).addClass("remove-item");
- 				$(this).removeClass('cd-add-to-cart');
+ 				$(this).removeClass('cd-add-to-carts');
  				var deleteElement = $(this).attr("data-id");
 				var i = ar.indexOf(deleteElement);
 				if (i != -1) {
@@ -120,7 +120,7 @@
 				$(this).addClass("added");
 				var txt = $(this).attr("data-data");
 				$(this).text(txt);
- 				$(this).addClass("cd-add-to-cart");
+ 				$(this).addClass("cd-add-to-carts");
  				$(this).removeClass('remove-item');
  				var v = $(this).attr("data-id");
  				ar.push(v);
@@ -142,7 +142,7 @@
  		// 	if(ck.checked){
  		// 		var s = label[c].getAttribute("data-data");
  		// 		label[c].innerHTML = s;
- 		// 		label[c].className = label[c].className.replace( /(?:^|\s)cd-add-to-cart(?!\S)/g , '' );
+ 		// 		label[c].className = label[c].className.replace( /(?:^|\s)cd-add-to-carts(?!\S)/g , '' );
  		// 		label[c].className += " remove-item";
  		// 	}
  		// 	else {
@@ -150,7 +150,7 @@
  		// 		label[c].innerHTML = s;
  		// 		//label[c].innerHTML = "Add to compare";
  		// 		label[c].className = label[c].className.replace( /(?:^|\s)remove-item(?!\S)/g , '' );
- 		// 		label[c].className += " cd-add-to-cart";
+ 		// 		label[c].className += " cd-add-to-carts";
  		// 	}
 
  		// }
@@ -159,14 +159,14 @@
  		// 	// alert ("sss");
  		// 	if($(this).hasClass("added")){
  		// 		$(this).text($(this).attr("data-data2"));
- 		// 		$(this).addClass("cd-add-to-cart");
+ 		// 		$(this).addClass("cd-add-to-carts");
  		// 		$(this).removeClass('remove-item');
  				
  		// 	}
  		// 	else {
  		// 		$(this).text($(this).attr("data-data"));
  		// 		$(this).addClass("remove-item");
- 		// 		$(this).removeClass('cd-add-to-cart');
+ 		// 		$(this).removeClass('cd-add-to-carts');
  		// 	}
  		// })
 		

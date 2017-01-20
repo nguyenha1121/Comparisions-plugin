@@ -118,7 +118,7 @@ jQuery(document).ready(function($){
 			var iid = "#wooc-checkbox-"+id;
 			$(cid).removeClass("added");
 			$(cid).text($(cid).attr("data-data2"));
-			$(cid).addClass("cd-add-to-cart");
+			$(cid).addClass("cd-add-to-carts");
 			$(cid).removeClass('remove-item');
 			$(iid).attr('checked',false);
 		});
