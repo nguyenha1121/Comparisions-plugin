@@ -44,6 +44,7 @@
  			}
  			else {
  				$(this).next().next().fadeOut();
+ 				console.log('happy new year !');
  			}
  		});
  	})

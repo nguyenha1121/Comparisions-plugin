@@ -54,6 +54,8 @@ class Woo_Compare_Admin {
 		$this->version = $version;
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
         add_action( 'admin_init', array( $this, 'page_init' ) );
+        require_once( plugin_dir_path( __FILE__ ) . 'class-page-template.php' );
+        add_action( 'plugins_loaded', array( 'Page_Template_Plugin', 'get_instance' ) );
 	}
 
 	/**
@@ -105,8 +107,8 @@ class Woo_Compare_Admin {
 
 	/// function add setting page
 
-	public function woo_compare_setting_page(){
-
+	public function admin_full_width_page(  ){
+        
 	}
 	public function add_plugin_page()
     {
@@ -221,8 +223,20 @@ class Woo_Compare_Admin {
         $hidden2 = "wooc_option[order-pub]";
         $check = get_option('wooc_option')['order'];
         $check = explode(",", $check);
-        // var_dump($check);
-        
+        foreach ($attr as $k => $v) {
+            $attr_name = $v->attribute_name;
+            $search = false;
+            foreach ($check as $key => $value) {
+                $ex = explode(";", $value); 
+                if($ex[0] == $attr_name ){
+                    $search = true;
+                    break;
+                }      
+            }
+            if ($search == false){
+                array_push($check,$attr_name.";0;");
+            }
+        }
         echo '<input id="wooc-order" type="hidden" name="'.$hidden.'" value="">';
         echo '<input id="wooc-order-2" type="hidden" name="'.$hidden2.'" value="">';
         echo "<ul id='sortable'>";
@@ -340,7 +354,6 @@ class Woo_Compare_Admin {
                  'un'
             );
             echo '<input class="wooc-input-2" type="text" name="price" value=""/> ';
-            // echo '<input class="wooc-in-class" namesss'
             echo '</div>';
             echo "</li>";
             echo "\n";
@@ -477,7 +490,6 @@ class Woo_Compare_Admin {
     }
 
     public function title_callback(){
-        // var_dump($this->options['title-6']);
         $index = array(
             "title-1"   =>  "Add to compare",
             "title-2"   =>  "Remove",
@@ -502,14 +514,14 @@ class Woo_Compare_Admin {
         $index = "sub-list";
         echo '<label style="font-size : 20px; color : #000; " for="'.$index."1".'">Button?  </label>';
         printf( 
-                '<input type="radio" id="%1s"  name="wooc_option[%2s]" %3schecked  value="1"/>',$index."1",$index,
-                isset( $this->options[$index] )&&($this->options[$index] == 1) ? '' : 'un'
+                '<input type="checkbox" id="%1s"  name="wooc_option[%2s]" %3schecked  value="1"/>',$index."1",$index."1",
+                isset( $this->options[$index."1"] )&&($this->options[$index."1"] == 1) ? '' : 'un'
             );
         echo "</br>";
         echo '<label style="font-size : 20px; color : #000; " for="'.$index."2".'">Widget?  </label>';
         printf( 
-                '<input type="radio" id="%1s" name="wooc_option[%2s]" %3schecked  value="2"/>',$index."2",$index,
-                isset( $this->options[$index] )&&($this->options[$index] == 2) ? '' : 'un'
+                '<input type="checkbox" id="%1s" name="wooc_option[%2s]" %3schecked  value="2"/>',$index."2",$index."2",
+                isset( $this->options[$index."2"] )&&($this->options[$index."2"] == 2) ? '' : 'un'
             );
     }
 

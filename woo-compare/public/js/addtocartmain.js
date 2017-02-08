@@ -37,7 +37,7 @@ jQuery(document).ready(function($){
 		// var cartList = $('.wooc-widget-body').find('ul').eq(0);
 		var cartTotal = cartWrapper.find('.checkout').find('span');
 		var cartTrigger = cartWrapper.children('.cd-cart-trigger');
-		var cartCount = cartTrigger.children('.count')
+		var cartCount = cartTrigger.children('.count');
 		var addToCartBtn = $('.wooc-a');
 		var undo = cartWrapper.find('.undo');
 		var undoTimeoutId;
@@ -92,7 +92,9 @@ jQuery(document).ready(function($){
 		//delete an item from the cart
 		cartList.on('click', '.delete-item', function(event){
 			// event.preventDefault();
-			removeProduct($(event.target).parents('.product'));
+			// removeProduct($(event.target).parents('.product'));
+			var id = "#wooc-label-"+$(this).attr('data-id');
+			removeProduct($(id));
 			var id = $(this).attr("data-id");
 			var idRemove = "#wooc-la-"+id;
 			$(idRemove).removeClass("added");

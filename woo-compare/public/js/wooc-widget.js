@@ -1,5 +1,7 @@
 jQuery(document).ready(function($){
 	var cartWrapper = $('.cd-cart-container');
+	var cartTrigger = cartWrapper.children('.cd-cart-trigger');
+	var cartCount = cartTrigger.children('.count');
 	//product id - you don't need a counter in your real project but you can use your real product id
 	var productId = 0;
 	///get/set cookie
@@ -25,6 +27,37 @@ jQuery(document).ready(function($){
 	    return "";
 	}
 
+	function updateCartCount(emptyCart, quantity) {
+		if( typeof quantity === 'undefined' ) {
+			var actual = Number(cartCount.find('li').eq(0).text()) + 1;
+			var next = actual + 1;
+			
+			if( emptyCart ) {
+				cartCount.find('li').eq(0).text(actual);
+				cartCount.find('li').eq(1).text(next);
+			} else {
+				cartCount.addClass('update-count');
+
+				setTimeout(function() {
+					cartCount.find('li').eq(0).text(actual);
+				}, 150);
+
+				setTimeout(function() {
+					cartCount.removeClass('update-count');
+				}, 200);
+
+				setTimeout(function() {
+					cartCount.find('li').eq(1).text(next);
+				}, 230);
+			}
+		} else {
+			var actual = Number(cartCount.find('li').eq(0).text()) + quantity;
+			var next = actual + 1;
+			
+			cartCount.find('li').eq(0).text(actual);
+			cartCount.find('li').eq(1).text(next);
+		}
+	}
 
 	function addToCart(trigger) {
 		var cartIsEmpty = cartWrapper.hasClass('empty');
@@ -65,6 +98,8 @@ jQuery(document).ready(function($){
 	}
 	///
 	var productId = 0;
+	var cartBody2 = cartWrapper.find('.body');
+	var cartList2 = cartBody2.find('ul').eq(0);
 	var cartList = $('.wooc-widget-body').find('ul').eq(0);
 	var cartBody = $('.wooc-widget-body');
 	var addToCartBtn = $('.wooc-a');
@@ -92,7 +127,7 @@ jQuery(document).ready(function($){
 			addToCart($(this));
 		}
 		else{
-			var id = "#wooc-label-"+$(this).attr('data-id');
+			var id = "#wooc-label-"+$(this).attr('data-ixd');
 			removeProduct($(id));
 			
 		}
@@ -101,6 +136,38 @@ jQuery(document).ready(function($){
 	cartList.on('click', '.delete-item', function(event){
 			// event.preventDefault();
 			removeProduct($(event.target).parents('.product'));
+			var id = "#wooc-label-"+$(this).attr('data-id');
+			removeProduct($(id));
+			updateCartCount(true, -1);
+			if( Number(cartCount.find('li').eq(0).text()) == 0) cartWrapper.addClass('empty');
+			var pr = $(event.target).parents('.product');
+			var id = pr.attr('data-id');
+			var i = ar.indexOf(id);
+				if (i != -1) {
+				    ar.splice(i,1);
+				}
+				ar.sort();
+				for(var i = 1 ;i<ar.length;i++){
+					if(ar[i-1]==ar[i]){
+						ar.splice(i-1,1);
+					}
+				}
+			setCookie('wooc-cks',ar,1);
+			var cid = "#wooc-la-"+id;
+			var iid = "#wooc-checkbox-"+id;
+			$(cid).removeClass("added");
+			$(cid).text($(cid).attr("data-data2"));
+			$(cid).addClass("cd-add-to-carts");
+			$(cid).removeClass('remove-item');
+			$(iid).attr('checked',false);
+		});
+	cartList2.on('click', '.delete-item', function(event){
+			// event.preventDefault();
+			removeProduct($(event.target).parents('.product'));
+			var id = "#wooc-label-"+$(this).attr('data-id');
+			removeProduct($(id));
+			updateCartCount(true, -1);
+			if( Number(cartCount.find('li').eq(0).text()) == 0) cartWrapper.addClass('empty');
 			var pr = $(event.target).parents('.product');
 			var id = pr.attr('data-id');
 			var i = ar.indexOf(id);

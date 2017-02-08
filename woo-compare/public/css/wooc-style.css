@@ -119,11 +119,13 @@ Main Components
 .cd-products-table {
   position: relative;
   overflow: hidden;
+  display: flex;
+
 }
 
 .cd-products-table .features {
   /* fixed left column - product properties list */
-  position: absolute;
+  // cd-products-table scrolling
   z-index: 1;
   top: 0;
   left: 0;
@@ -150,7 +152,7 @@ Main Components
 }
 @media only screen and (min-width: 1170px) {
   .cd-products-table .features {
-    width: 210px;
+    width: 250px;
   }
 }
 
@@ -171,7 +173,7 @@ Main Components
 .cd-products-columns {
   /* products list wrapper */
   width: 1200px;
-  margin-left: 120px;
+  // margin-left: 120px;
 }
 .cd-products-columns::after {
   clear: both;
@@ -181,10 +183,12 @@ Main Components
 @media only screen and (min-width: 1170px) {
   .cd-products-columns {
     width: 2480px;
-    margin-left: 210px;
+    // margin-left: 250px;
   }
 }
-
+ul.cd-products-columns{
+  margin: 0;
+}
 .cd-products-columns .product {
   position: relative;
   float: left;
@@ -247,7 +251,7 @@ li.wooc-ratting{
 }
 @media only screen and (min-width: 1170px) {
   .cd-features-list li {
-    font-size: 1.6rem;
+    font-size: 14px;
   }
   .cd-features-list li.rate {
     padding: 22px 0;
@@ -257,7 +261,7 @@ li.wooc-ratting{
 .features .cd-features-list li,
 .cd-products-table .features .top-info {
   /* fixed left column - items */
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   /* set line-height value equal to font-size of text inside product cells */
   // line-height: 14px;
@@ -268,7 +272,7 @@ li.wooc-ratting{
   .features .cd-features-list li,
   .cd-products-table .features .top-info {
     text-transform: uppercase;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 2.4rem;
     padding: 25px 20px;
     letter-spacing: 1px;
@@ -389,7 +393,7 @@ li.wooc-ratting{
 }
 @media only screen and (min-width: 1170px) {
   .cd-products-table .features .top-info {
-    width: 210px;
+    width: 250px;
   }
 }
 
@@ -548,7 +552,7 @@ li.wooc-ratting{
     transform: translateY(100px);
   }
   .cd-table-navigation a.prev {
-    left: 210px;
+    left: 250px;
     -webkit-transform: translateY(100px) translateX(15px) rotate(180deg);
     -moz-transform: translateY(100px) translateX(15px) rotate(180deg);
     -ms-transform: translateY(100px) translateX(15px) rotate(180deg);
@@ -603,4 +607,8 @@ a.delete-item {
     // position: absolute;
     top: 100%;
     left: 0;
+}
+.wooc-widget-css ul{
+  list-style: none;
+  margin: 0;
 }

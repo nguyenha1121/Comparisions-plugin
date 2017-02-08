@@ -55,6 +55,10 @@ class Woo_Compare_Public {
 		add_action('wp_ajax_woo_compare_ajax', array(&$this,'woo_compare_ajax'));
 		add_action('wp_ajax_nopriv_woo_compare_ajax', array(&$this,'woo_compare_ajax'));
 		$get_op = get_option( 'wooc_option' );
+
+		add_action('wp_ajax_woo_compare_ajax', array(&$this,'woo_compare_ajax2'));
+		add_action('wp_ajax_nopriv_woo_compare_ajax', array(&$this,'woo_compare_ajax2'));
+	
 		//single page
 		if($get_op['singlepg']=="1"){
 			add_action('woocommerce_before_add_to_cart_form',array(&$this,'woo_compare_add_checkbox'));
@@ -122,12 +126,12 @@ class Woo_Compare_Public {
 		wp_enqueue_script( $this->plugin_name."2", plugin_dir_url( __FILE__ ) . 'js/main.js', array( 'jquery' ), $this->version, false );
 
 		$option= get_option("wooc_option");
-		if($option['sub-list']!=2){
+		if($option['sub-list1']==1){
 			wp_register_script('ez_script', plugin_dir_url( __FILE__ ) . 'js/addtocartmain.js', array( 'jquery' ), $this->version, false);
 	   		wp_localize_script('ez_script','ajax',array('url'=> admin_url('admin-ajax.php')));
 	    	wp_enqueue_script('ez_script');
 		}
-		else{
+		if($option['sub-list2']==2){
 			wp_register_script('wooc-script', plugin_dir_url( __FILE__ ) . 'js/wooc-widget.js', array( 'jquery' ), $this->version, false);
 		    wp_localize_script('wooc-script','ajax2',array('url'=> admin_url('admin-ajax.php')));
 		    wp_enqueue_script('wooc-script');
@@ -142,7 +146,7 @@ class Woo_Compare_Public {
 	 */
 	function woo_compare_widget(){
 		$option= get_option("wooc_option");
-		if($option['sub-list']==2){
+		if($option['sub-list2']==2){
 			register_widget('Wooc_Widget');
 		}
 		// register_widget('Wooc_Widget');
@@ -181,6 +185,28 @@ class Woo_Compare_Public {
 		die();
 	}
 
+	public function woo_compare_ajax2(){
+//////////////////////////
+		$sec_id = $_POST['data'];
+		$id = intval($_POST['id']);
+		$product = get_post($id);
+		$price = $this->wc_get_product_price($id);
+		if(get_post_thumbnail_id( $id )==''){
+			$url[0] = 'http://honganhtesol.com/Home/wp-content/uploads/2016/09/default.jpg';
+		}
+		else $url = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'thumbnail' );
+		$title = $product->post_title;
+		$get_op = get_option(wooc_option);
+		if(!isset($get_op['title-2'])||($get_op['title-2']=="")) {
+			$e = "Remove";
+		}
+		else $e = $get_op['title-2'];
+		echo '<li style="" class="product" data-id="'.$id.'" id="wooc-label-'.$id.'"><div class="product-image"><a href="#0"><img src="'.$url[0].'" alt="placeholder"></a></div><div class="product-details"><div><h3><a href="#0">'.$title.'</a></h3><span class="price">'.$price.'</span></div><div class="actions" style="position: relative;"><a style="" data-id="'.$id.'" href="#0" class="delete-item2">'.$e.'</a></div></li>';
+		die();
+	}
+
+	
+
 	/**
 	 * Auto create page comapre
 	 */
@@ -195,10 +221,12 @@ class Woo_Compare_Public {
 				$e = "Products Comparison Table";
 		}
 		else $e = $get_op['title-6'];
+		$template = 'wooc-fullwidth.php';
 		$page = array(
 			'post_type'	=> 'page',
 			'post_content'	=> '[woo_compare_compare_content]',
 			'post_status'	=> 'publish',
+			'page_template'	=>	$template,
 			'post_title'	=> $e
 		);
 		$id = wp_insert_post($page);
@@ -215,12 +243,14 @@ class Woo_Compare_Public {
 			$e = "Products Comparison Table";
 		}
 		else $e = $get_op['title-6'];
+		$template = 'wooc-fullwidth.php';
 		if($page == null || $page->post_status=='trash' || $page->post_tittle != $e){
 			$post = array(
 				'ID'		=> $id,
 				'post_type'	=> 'page',
 				'post_content'	=> '[woo_compare_compare_content]',
 				'post_status'	=> 'publish',
+				'page_template'	=>	$template,
 				'post_title'	=> $e
 			);
 			$i = wp_insert_post($post);
@@ -259,7 +289,7 @@ class Woo_Compare_Public {
 			}
 			else $e = $get_op['title-1'];
 			echo $e;
-		?>" data-id="<?php echo $product->id;?>" style="-webkit-appearance: push-button; -moz-appearance: button; cursor: pointer;" for="<?php echo "wooc-checkbox-".$product->id; ?>"></a>
+		?>" data-id="<?php echo $product->id;?>" style=" cursor: pointer;" for="<?php echo "wooc-checkbox-".$product->id; ?>"></a>
 		<?php
 	}
 
