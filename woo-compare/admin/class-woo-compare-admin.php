@@ -54,8 +54,7 @@ class Woo_Compare_Admin {
 		$this->version = $version;
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
         add_action( 'admin_init', array( $this, 'page_init' ) );
-        require_once( plugin_dir_path( __FILE__ ) . 'class-page-template.php' );
-        add_action( 'plugins_loaded', array( 'Page_Template_Plugin', 'get_instance' ) );
+        add_filter( 'page_template', array( $this, 'admin_full_width_page' ) );
 	}
 
 	/**
@@ -107,7 +106,9 @@ class Woo_Compare_Admin {
 
 	/// function add setting page
 
-	public function admin_full_width_page(  ){
+	public function admin_full_width_page(){
+        $page_template = dirname( __FILE__ ) . '/templates/wooc-fullwidth.php';
+    	return $page_template;
         
 	}
 	public function add_plugin_page()
@@ -221,7 +222,8 @@ class Woo_Compare_Admin {
     	$attr = wc_get_attribute_taxonomies();
         $hidden = "wooc_option[order]";
         $hidden2 = "wooc_option[order-pub]";
-        $check = get_option('wooc_option')['order'];
+        $check = get_option('wooc_option');
+        $check = $check['order'];
         $check = explode(",", $check);
         foreach ($attr as $k => $v) {
             $attr_name = $v->attribute_name;
@@ -527,3 +529,4 @@ class Woo_Compare_Admin {
 
   
 }
+?>

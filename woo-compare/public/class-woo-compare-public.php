@@ -73,7 +73,7 @@ class Woo_Compare_Public {
 		add_action('init',array(&$this,'woo_compare_auto_add_page'));
 		add_shortcode('woo_compare_compare_content',array(&$this,'woo_compare_compare_page_sc'));
 		add_action('widgets_init',array(&$this,'woo_compare_widget'));
-
+		// add_filter( 'page_template' , array(&$this,'woo_compare_set_template') ); 
 		
 	}
 
@@ -256,6 +256,30 @@ class Woo_Compare_Public {
 			$i = wp_insert_post($post);
 		}
 
+	}
+
+	/**
+	* Auto switch template page compare to fullwidth
+	*/
+	public function woo_compare_set_template(){
+		$id = get_option('woo_compare_page_id');
+		if($id){
+			// var_dump(is_page($id));
+			if( is_page($id) ){
+				add_filter( 'page_template' , array(&$this,'woo_compare_sub_set_template') ); 
+				return "";
+			}
+			else return false;
+		}
+		else {
+			$this->woo_compare_auto_add_page();
+			$this->woo_compare_set_template();
+		}
+	}
+
+	public function woo_compare_sub_set_template(){
+		$template = dirname( __FILE__ ) . '/templates/wooc-fullwidth.php';
+		return $template;
 	}
 	/**
 	 * Add 

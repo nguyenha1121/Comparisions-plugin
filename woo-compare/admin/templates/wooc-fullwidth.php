@@ -2,9 +2,6 @@
 /**
  * Template Name: Full Width Page
  *
- * @package WordPress
- * @subpackage Twenty_Fourteen
- * @since Twenty Fourteen 1.0
  */
 
 get_header(); ?>
@@ -17,7 +14,6 @@ get_header(); ?>
 		get_template_part( 'featured-content' );
 	}
 ?>
-
 	<div id="primary" class="content-fullwidth">
 		<div id="content" class="site-content" role="main">
 			<?php
@@ -36,7 +32,6 @@ get_header(); ?>
 		</div><!-- #content -->
 	</div><!-- #primary -->
 </div><!-- #main-content -->
-
 <?php
-// get_sidebar();
 get_footer();
+?>

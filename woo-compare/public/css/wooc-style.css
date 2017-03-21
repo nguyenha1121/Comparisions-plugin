@@ -222,7 +222,7 @@ ul.cd-products-columns{
 }
 
 .cd-features-list li {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: bold;
   padding: 25px 40px;
   border-color: #e6e6e6;
@@ -237,6 +237,8 @@ ul.cd-products-columns{
 }
 li.wooc-ratting{
   max-height: 75px !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .cd-features-list li.rate {
   /* rating stars */
