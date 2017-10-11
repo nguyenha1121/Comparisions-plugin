@@ -1,7 +1,7 @@
-(function( $ ) {
-	'use strict';
+(function($) {
+  "use strict";
 
-	/**
+  /**
 	 * All of the code for your admin-facing JavaScript source
 	 * should reside in this file.
 	 *
@@ -29,29 +29,33 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
- 	$(document).ready(function(){
- 		$('.wooc-input').each(function(){
- 			if($(this).is(':checked')){
- 				$(this).next().next().css('display','block');
- 			}
- 			else {
- 				$(this).next().next().css('display','none');
- 			}
- 		});
- 		$('.wooc-input').change(function(){
- 			if($(this).is(':checked')){
- 				$(this).next().next().fadeIn();
- 			}
- 			else {
- 				$(this).next().next().fadeOut();
- 				console.log('happy new year !');
- 			}
- 		});
- 	})
-
-
-
-
-
-
-})( jQuery );
+  $(document).ready(function() {
+    $(".wooc-input").each(function() {
+      if ($(this).is(":checked")) {
+        $(this)
+          .next()
+          .next()
+          .css("display", "block");
+      } else {
+        $(this)
+          .next()
+          .next()
+          .css("display", "none");
+      }
+    });
+    $(".wooc-input").change(function() {
+      if ($(this).is(":checked")) {
+        $(this)
+          .next()
+          .next()
+          .fadeIn();
+      } else {
+        $(this)
+          .next()
+          .next()
+          .fadeOut();
+        console.log("happy new year !");
+      }
+    });
+  });
+})(jQuery);
